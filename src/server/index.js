@@ -54,7 +54,7 @@ app.post("/save", function(req, res) {
       url: parseUrl
     },
     (err, resp) => {
-      if (err === null) {
+      if (err === null && resp.categories.length !==0) {
         const classify = resp.categories[0].label;
         console.log(classify);
         res.json({
