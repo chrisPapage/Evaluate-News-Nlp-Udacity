@@ -39,33 +39,32 @@ app.get("/test", function(req, res) {
 
 //set aylien API credentials
 const aylienApi = new aylien({
-  application_id: "a67995e5",
-  application_key: "f2d826b77540bbb3128d9e7aefccf38c"
+  application_id: process.env.API_ID,
+  application_key: process.env.API_KEY
 });
 
 app.post("/save", function(req, res) {
   console.log(req.body);
-
-  console.log("Received");
   const parseUrl = req.body.url;
   console.log(parseUrl);
-  aylienApi.classify(
-    {
+  if (aylienApi){
+    aylienApi.sentiment({
       url: parseUrl
     },
     (err, resp) => {
-      if (err === null && resp.categories.length !==0) {
-        const classify = resp.categories[0].label;
-        console.log(classify);
+      if (err === null) {
+        console.log(resp);
         res.json({
-          message: classify
+          message: resp.polarity,
+          message1: resp.polarity_confidence
         });
       } else {
-        const failedText = "Could not classify this news article.";
+        const failedText = "Could not define the sentiment";
         res.json({
           message: failedText
         });
       }
     }
   );
+  }
 });

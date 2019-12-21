@@ -17,8 +17,7 @@ async function handleSubmit(event) {
   };
 
   const res = await postData("http://localhost:3030/save", someData);
-
-  result.textContent = `The article is talking about: ${res.message}`;
+  result.textContent = `The article polarity and polarity confidence are: ${res.message} and ${res.message1}`;
 }
 
 async function postData(url = "", data = {}) {
